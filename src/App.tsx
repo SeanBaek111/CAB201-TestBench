@@ -131,7 +131,11 @@ export default function App() {
   };
 
   const selectProblem = (p: Problem) => {
-    setSelectedProblem(p);
+    if (selectedProblem === p) {
+      setSelectedProblem(null);
+    } else {
+      setSelectedProblem(p);
+    }
     setSelectedCase(null);
     setActualOutput(null);
     setBatchResults(null);
