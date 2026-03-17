@@ -55,27 +55,10 @@ app.get('/api/pick-folder', async (req, res) => {
       ).trim();
       folderPath = result.endsWith('/') ? result.slice(0, -1) : result;
     } else if (os === 'win32') {
-      const psScript = `
-Add-Type -AssemblyName System.Windows.Forms
-[System.Windows.Forms.Application]::EnableVisualStyles()
-$form = New-Object System.Windows.Forms.Form
-$form.TopMost = $true
-$form.Width = 0
-$form.Height = 0
-$form.FormBorderStyle = 'None'
-$form.StartPosition = 'CenterScreen'
-$form.Show()
-$form.Activate()
-$form.BringToFront()
-$form.Hide()
-$dialog = New-Object System.Windows.Forms.FolderBrowserDialog
-$dialog.Description = 'Select folder'
-$dialog.ShowNewFolderButton = $false
-if ($dialog.ShowDialog($form) -eq 'OK') { $dialog.SelectedPath } else { '' }
-$form.Dispose()
-      `.trim();
+      // Use Shell.Application COM dialog — handles focus better than WinForms
+      const psScript = `$shell = New-Object -ComObject Shell.Application; $folder = $shell.BrowseForFolder(0, 'Select folder', 0x40); if ($folder) { $folder.Self.Path } else { '' }`;
       const result = execSync(
-        `powershell -STA -NoProfile -Command "${psScript.replace(/\n/g, '; ')}"`,
+        `powershell -NoProfile -Command "${psScript}"`,
         { encoding: 'utf-8', timeout: 60000 }
       ).trim();
       folderPath = result || null;
