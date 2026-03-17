@@ -176,7 +176,7 @@ export default function App() {
     <div className="h-screen flex flex-col">
       {/* Header */}
       <header className="flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shrink-0">
-        <h1 className="text-lg font-bold tracking-tight">CAB201 TestCase Viewer</h1>
+        <h1 className="text-lg font-bold tracking-tight">CAB201 TestBench</h1>
         <div className="flex items-center gap-2">
           {settings.projectPath && selectedProblem && (
             <button

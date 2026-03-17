@@ -325,6 +325,6 @@ app.use('/api/batch-run', (req, res, next) => {
 const preferredPort = process.env.PORT || 3001;
 findPort(Number(preferredPort)).then((port) => {
   app.listen(port, () => {
-    console.log(`\n🚀 CAB201 TestCase Viewer server running at http://localhost:${port}\n`);
+    console.log(`\n🚀 CAB201 TestBench server running at http://localhost:${port}\n`);
   });
 });

@@ -1,6 +1,6 @@
-# CAB201 TestCase Viewer
+# CAB201 TestBench
 
-A local tool for viewing and running CAB201 test cases. Compare your C# program's output against expected results with side-by-side diff view.
+A local tool for viewing, running, and verifying CAB201 test cases. Compare your C# program's output against expected results with side-by-side diff view.
 
 ## Features
 
@@ -28,8 +28,8 @@ dotnet --version  # should show 6.0+
 
 ```bash
 # 1. Clone
-git clone https://github.com/YOUR_USERNAME/CAB201_TestCase_Viewer.git
-cd CAB201_TestCase_Viewer
+git clone https://github.com/YOUR_USERNAME/CAB201-TestBench.git
+cd CAB201-TestBench
 
 # 2. Install dependencies
 npm install
