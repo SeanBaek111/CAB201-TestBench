@@ -28,7 +28,7 @@ dotnet --version  # should show 6.0+
 
 ```bash
 # 1. Clone
-git clone https://github.com/YOUR_USERNAME/CAB201-TestBench.git
+git clone https://github.com/SeanBaek111/CAB201-TestBench.git
 cd CAB201-TestBench
 
 # 2. Install dependencies
