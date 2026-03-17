@@ -58,12 +58,21 @@ app.get('/api/pick-folder', async (req, res) => {
       const psScript = `
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
+$form = New-Object System.Windows.Forms.Form
+$form.TopMost = $true
+$form.Width = 0
+$form.Height = 0
+$form.FormBorderStyle = 'None'
+$form.StartPosition = 'CenterScreen'
+$form.Show()
+$form.Activate()
+$form.BringToFront()
+$form.Hide()
 $dialog = New-Object System.Windows.Forms.FolderBrowserDialog
 $dialog.Description = 'Select folder'
 $dialog.ShowNewFolderButton = $false
-$form = New-Object System.Windows.Forms.Form
-$form.TopMost = $true
 if ($dialog.ShowDialog($form) -eq 'OK') { $dialog.SelectedPath } else { '' }
+$form.Dispose()
       `.trim();
       const result = execSync(
         `powershell -STA -NoProfile -Command "${psScript.replace(/\n/g, '; ')}"`,
