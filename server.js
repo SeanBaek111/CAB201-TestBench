@@ -57,13 +57,16 @@ app.get('/api/pick-folder', async (req, res) => {
     } else if (os === 'win32') {
       const psScript = `
 Add-Type -AssemblyName System.Windows.Forms
+[System.Windows.Forms.Application]::EnableVisualStyles()
 $dialog = New-Object System.Windows.Forms.FolderBrowserDialog
 $dialog.Description = 'Select folder'
 $dialog.ShowNewFolderButton = $false
-if ($dialog.ShowDialog() -eq 'OK') { $dialog.SelectedPath } else { '' }
+$form = New-Object System.Windows.Forms.Form
+$form.TopMost = $true
+if ($dialog.ShowDialog($form) -eq 'OK') { $dialog.SelectedPath } else { '' }
       `.trim();
       const result = execSync(
-        `powershell -NoProfile -Command "${psScript.replace(/\n/g, '; ')}"`,
+        `powershell -STA -NoProfile -Command "${psScript.replace(/\n/g, '; ')}"`,
         { encoding: 'utf-8', timeout: 60000 }
       ).trim();
       folderPath = result || null;
