@@ -88,5 +88,5 @@ Install .NET SDK from https://dotnet.microsoft.com/download. The viewer still wo
 **Port already in use**
 The server auto-finds an available port starting from 3001.
 
-**Browse button doesn't work (non-macOS)**
-Type the folder path manually in the Settings input field. The native folder picker only works on macOS.
+**Browse button doesn't work**
+The native folder picker supports macOS, Windows, and Linux (with zenity). If it doesn't work, type the folder path manually in the Settings input field.

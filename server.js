@@ -42,20 +42,45 @@ if (existsSync('dist')) {
   app.use(express.static('dist'));
 }
 
-// Open native folder picker dialog
+// Open native folder picker dialog (macOS + Windows)
 app.get('/api/pick-folder', async (req, res) => {
   try {
-    if (platform() === 'darwin') {
+    const os = platform();
+    let folderPath = null;
+
+    if (os === 'darwin') {
       const result = execSync(
         `osascript -e 'POSIX path of (choose folder with prompt "Select folder")'`,
         { encoding: 'utf-8', timeout: 60000 }
       ).trim();
-      // Remove trailing slash
-      const folderPath = result.endsWith('/') ? result.slice(0, -1) : result;
-      res.json({ path: folderPath });
+      folderPath = result.endsWith('/') ? result.slice(0, -1) : result;
+    } else if (os === 'win32') {
+      const psScript = `
+Add-Type -AssemblyName System.Windows.Forms
+$dialog = New-Object System.Windows.Forms.FolderBrowserDialog
+$dialog.Description = 'Select folder'
+$dialog.ShowNewFolderButton = $false
+if ($dialog.ShowDialog() -eq 'OK') { $dialog.SelectedPath } else { '' }
+      `.trim();
+      const result = execSync(
+        `powershell -NoProfile -Command "${psScript.replace(/\n/g, '; ')}"`,
+        { encoding: 'utf-8', timeout: 60000 }
+      ).trim();
+      folderPath = result || null;
     } else {
-      res.status(400).json({ error: 'Folder picker only supported on macOS. Please type the path manually.' });
+      // Linux — use zenity if available
+      try {
+        const result = execSync(
+          'zenity --file-selection --directory --title="Select folder"',
+          { encoding: 'utf-8', timeout: 60000 }
+        ).trim();
+        folderPath = result || null;
+      } catch {
+        return res.status(400).json({ error: 'No folder picker available. Please type the path manually.' });
+      }
     }
+
+    res.json({ path: folderPath });
   } catch (err) {
     // User cancelled the dialog
     res.json({ path: null });
