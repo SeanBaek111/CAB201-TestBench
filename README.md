@@ -14,15 +14,19 @@ A local tool for viewing, running, and verifying CAB201 test cases. Compare your
 
 ## Prerequisites
 
+- **Git** — [Download](https://git-scm.com/downloads) *(required to clone the repository)*
 - **Node.js** 18+ — [Download](https://nodejs.org/)
 - **.NET SDK** 6+ — [Download](https://dotnet.microsoft.com/download) *(required for Run/Batch Run only)*
 
 Check if installed:
 
 ```bash
+git --version     # should show git version 2.x+
 node --version    # should show v18+
 dotnet --version  # should show 6.0+
 ```
+
+> **Git not installed?** Download from [git-scm.com/downloads](https://git-scm.com/downloads) and follow the installer. On Windows, use the default settings. After installation, restart your terminal and run `git --version` to verify.
 
 ## Quick Start
 
